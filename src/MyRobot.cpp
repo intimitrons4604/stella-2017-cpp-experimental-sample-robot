@@ -31,10 +31,6 @@ class MyRobot : public SampleRobot
         std::unique_ptr<Talon> MotorLeft2;
         std::unique_ptr<Talon> MotorRight1;
         std::unique_ptr<Talon> MotorRight2;
-        std::unique_ptr<Victor> ArmHinge;
-        std::unique_ptr<Victor> LiftWinch;
-        std::unique_ptr<Victor> PositioningWinch;
-        std::unique_ptr<Victor> Whapper;
         std::unique_ptr<DigitalInput> Limit;
         std::unique_ptr<frc::XboxController> Drive;
         std::unique_ptr<Joystick> Controls;
@@ -48,10 +44,6 @@ class MyRobot : public SampleRobot
             MotorLeft2.reset(new Talon(2));
             MotorRight1.reset(new Talon(3));
             MotorRight2.reset(new Talon(4));
-            ArmHinge.reset(new Victor(8));
-            LiftWinch.reset(new Victor(9));
-            PositioningWinch.reset(new Victor(6));
-            Whapper.reset(new Victor(7));
             Limit.reset(new DigitalInput(0)); //Added as an example, DigitalInput class not tested
             //stick = new Joystick(driveChannel);
             Drive.reset(new frc::XboxController(0));//Driving controller
@@ -72,43 +64,6 @@ class MyRobot : public SampleRobot
             float rightTrigger=Drive->GetRawAxis(3);
             double magnitude = .5;
 
-            float armHingeSpeed;
-            float liftWinchSpeed;
-            float posWinchSpeed;
-            float whapperSpeed;
-
-            if (rightBumper)
-                armHingeSpeed = magnitude;
-            else if (leftBumper)
-                armHingeSpeed = -magnitude;
-            else
-                armHingeSpeed = 0;
-
-            if (xButton)
-                liftWinchSpeed = magnitude;
-            else if (yButton)
-                liftWinchSpeed = -magnitude;
-            else
-                liftWinchSpeed = 0;
-
-            if (aButton)
-                posWinchSpeed = magnitude*2;
-            else if (bButton)
-                posWinchSpeed = -magnitude*1.5;
-            else
-                posWinchSpeed = 0;
-
-            if (leftTrigger>=0.5)
-                whapperSpeed = magnitude;
-            else if (rightTrigger>=0.5)
-                whapperSpeed = -magnitude;
-            else
-                whapperSpeed = 0;
-
-            ArmHinge->Set(armHingeSpeed);
-            LiftWinch->Set(liftWinchSpeed);
-            PositioningWinch->Set(posWinchSpeed);
-            Whapper->Set(whapperSpeed);
         }
 
         void arcadeDrive()
@@ -200,7 +155,7 @@ class MyRobot : public SampleRobot
         {
             while (IsOperatorControl() && IsEnabled())
             {
-                armTest();
+                //armTest();
                 arcadeDrive();
                 // tankDrive()
                 Wait(0.02); // wait for a motor update time
