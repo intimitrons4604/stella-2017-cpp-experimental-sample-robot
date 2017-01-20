@@ -117,8 +117,12 @@ class MyRobot : public SampleRobot
             float turn=Drive->GetRawAxis(4);
             bool turbo=Drive->GetRawButton(5); //Left shoulder button acts as turbo
             double leftTrigger = Drive->GetTriggerAxis(frc::GenericHID::JoystickHand::kLeftHand);
+            double rightTrigger = Drive->GetTriggerAxis(frc::GenericHID::JoystickHand::kRightHand);
 
             //Deadband logic
+
+            //setting rightTrigger to rotate in reverse
+            rightTrigger=rightTrigger*(-1);
 
             if (std::abs(straight)<=0.2)
                 straight=0;
@@ -147,7 +151,12 @@ class MyRobot : public SampleRobot
             MotorLeft2->Set(left);
             MotorRight1->Set(right);
             MotorRight2->Set(right);
-            TestMotor->Set(leftTrigger);
+            if (leftTrigger>0)
+            	TestMotor->Set(leftTrigger);
+            else if (rightTrigger<0)
+            	TestMotor->Set(rightTrigger);
+            else
+            	TestMotor->Set(0);
         }
 
         void tankDrive()
