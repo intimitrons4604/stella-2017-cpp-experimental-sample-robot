@@ -36,8 +36,9 @@ class MyRobot : public SampleRobot
         std::unique_ptr<Victor> PositioningWinch;
         std::unique_ptr<Victor> Whapper;
         std::unique_ptr<DigitalInput> Limit;
-        std::unique_ptr<Joystick> Drive;
+        std::unique_ptr<frc::XboxController> Drive;
         std::unique_ptr<Joystick> Controls;
+        std::unique_ptr<frc::Spark> TestMotor;
 
     public:
         void RobotInit()
@@ -48,13 +49,14 @@ class MyRobot : public SampleRobot
             MotorRight1.reset(new Talon(3));
             MotorRight2.reset(new Talon(4));
             ArmHinge.reset(new Victor(8));
-            LiftWinch.reset(new Victor(5));
+            LiftWinch.reset(new Victor(9));
             PositioningWinch.reset(new Victor(6));
             Whapper.reset(new Victor(7));
             Limit.reset(new DigitalInput(0)); //Added as an example, DigitalInput class not tested
             //stick = new Joystick(driveChannel);
-            Drive.reset(new Joystick(0, 6, 10));//Driving controller
+            Drive.reset(new frc::XboxController(0));//Driving controller
             Controls.reset(new Joystick(1, 6, 10));//Winch and arm controller
+            TestMotor.reset(new Spark(5));
         }
 
         void armTest()
@@ -114,6 +116,7 @@ class MyRobot : public SampleRobot
             float straight=Drive->GetRawAxis(1);
             float turn=Drive->GetRawAxis(4);
             bool turbo=Drive->GetRawButton(5); //Left shoulder button acts as turbo
+            double leftTrigger = Drive->GetTriggerAxis(frc::GenericHID::JoystickHand::kLeftHand);
 
             //Deadband logic
 
@@ -144,6 +147,7 @@ class MyRobot : public SampleRobot
             MotorLeft2->Set(left);
             MotorRight1->Set(right);
             MotorRight2->Set(right);
+            TestMotor->Set(leftTrigger);
         }
 
         void tankDrive()
