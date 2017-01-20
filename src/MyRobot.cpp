@@ -117,6 +117,7 @@ class MyRobot : public SampleRobot
             float turn=Drive->GetRawAxis(4);
             bool turbo=Drive->GetRawButton(5); //Left shoulder button acts as turbo
             double leftTrigger = Drive->GetTriggerAxis(frc::GenericHID::JoystickHand::kLeftHand);
+            double rightTrigger = Drive->GetTriggerAxis(frc::GenericHID::JoystickHand::kRightHand);
 
             //Deadband logic
 
@@ -147,7 +148,18 @@ class MyRobot : public SampleRobot
             MotorLeft2->Set(left);
             MotorRight1->Set(right);
             MotorRight2->Set(right);
-            TestMotor->Set(leftTrigger);
+
+
+            if (leftTrigger > 0.5) {
+            	TestMotor->Set(leftTrigger);
+            }
+            else if (rightTrigger > 0.5) {
+            	TestMotor->Set(rightTrigger * -1);
+            	}
+            else {	TestMotor->Set(0);
+
+            }
+
         }
 
         void tankDrive()
