@@ -57,8 +57,6 @@ class MyRobot : public SampleRobot
             Drive.reset(new frc::XboxController(0));//Driving controller
             Controls.reset(new Joystick(1, 6, 10));//Winch and arm controller
             TestMotor.reset(new Spark(5));
-            CameraServer::GetInstance()->StartAutomaticCapture(0);
-            CameraServer::GetInstance()->StartAutomaticCapture(1);
         }
 
         void armTest()
@@ -118,9 +116,13 @@ class MyRobot : public SampleRobot
             float straight=Drive->GetRawAxis(1);
             float turn=Drive->GetRawAxis(4);
             bool turbo=Drive->GetRawButton(5); //Left shoulder button acts as turbo
-            double leftTrigger = Drive->GetTriggerAxis(frc::GenericHID::JoystickHand::kLeftHand);
+            bool isTestMotor=Drive->GetRawButton(1);
+            float testMotorActive;
 
             //Deadband logic
+
+            if (isTestMotor=true)
+            	testMotorActive=1;
 
             if (std::abs(straight)<=0.2)
                 straight=0;
@@ -149,7 +151,7 @@ class MyRobot : public SampleRobot
             MotorLeft2->Set(left);
             MotorRight1->Set(right);
             MotorRight2->Set(right);
-            TestMotor->Set(leftTrigger);
+            TestMotor->Set(testMotorActive);
         }
 
         void tankDrive()
