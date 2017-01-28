@@ -121,8 +121,10 @@ class MyRobot : public SampleRobot
 
             //Deadband logic
 
-            if (isTestMotor=true)
+            if (isTestMotor)
             	testMotorActive=1;
+            else
+            	testMotorActive=0;
 
             if (std::abs(straight)<=0.2)
                 straight=0;
