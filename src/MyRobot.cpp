@@ -44,10 +44,10 @@ class MyRobot : public SampleRobot
         void RobotInit()
         {
             /*Robot initialization function*/
-            MotorLeft1.reset(new Talon(1));
-            MotorLeft2.reset(new Talon(2));
-            MotorRight1.reset(new Talon(3));
-            MotorRight2.reset(new Talon(4));
+            MotorLeft1.reset(new Talon(0));
+            MotorLeft2.reset(new Talon(1));
+            MotorRight1.reset(new Talon(2));
+            MotorRight2.reset(new Talon(3));
             ArmHinge.reset(new Victor(8));
             LiftWinch.reset(new Victor(9));
             PositioningWinch.reset(new Victor(6));
@@ -116,7 +116,7 @@ class MyRobot : public SampleRobot
             float straight=Drive->GetRawAxis(1);
             float turn=Drive->GetRawAxis(4);
             bool turbo=Drive->GetRawButton(5); //Left shoulder button acts as turbo
-            double leftTrigger = Drive->GetTriggerAxis(frc::GenericHID::JoystickHand::kLeftHand);
+            //double leftTrigger = Drive->GetTriggerAxis(frc::GenericHID::JoystickHand::kLeftHand);
 
             //Deadband logic
 
@@ -147,7 +147,7 @@ class MyRobot : public SampleRobot
             MotorLeft2->Set(left);
             MotorRight1->Set(right);
             MotorRight2->Set(right);
-            TestMotor->Set(leftTrigger);
+           // TestMotor->Set(leftTrigger);
         }
 
         void tankDrive()
