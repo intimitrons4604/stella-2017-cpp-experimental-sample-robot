@@ -94,9 +94,40 @@ class MyRobot : public SampleRobot
             /*Runs the motors autonomously with tank steering*/
             std::printf("autonomous control mode entered");
 
-            while (IsAutonomous() && IsEnabled())
+            if (IsAutonomous() && IsEnabled())
             {
-                float x = -0.5;
+#define LEFT
+
+#ifdef MIDDLE //goes straight to peg (gear)
+            	float left = 0.5;
+            	float right = -0.5;
+            	double driveTime = 5;
+
+            	MotorLeft1->Set(left);
+            	MotorLeft2 ->Set(left);
+            	MotorRight1->Set(right);
+            	MotorRight2->Set(right);
+
+            	Wait(driveTime); // wait for a motor update time
+
+
+#endif
+            	
+#ifdef SIDE  //goes straight to pass line
+            	float left = -0.5;
+            	float right = 0.5;
+            	double driveTimeSide = 5;
+
+            	MotorLeft1->Set(left);
+            	MotorLeft2->Set(left);
+            	MotorRight1->Set(right);
+            	MotorRight2->Set(right);
+
+            	Wait(driveTimeSide); // wait for a motor update time
+#endif
+
+            	/*
+            	float x = -0.5;
                 float y = 0.5;
 
                 std::printf("autonomous motor rates MotorLeft1=%f, MotorRight1=%f", x, y);
@@ -106,6 +137,7 @@ class MyRobot : public SampleRobot
                 MotorRight2->Set(y);
 
                 Wait(0.02); // wait for a motor update time
+                */
             }
         }
 
