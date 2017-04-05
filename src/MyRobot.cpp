@@ -57,6 +57,8 @@ class MyRobot : public SampleRobot
             Drive.reset(new frc::XboxController(0));//Driving controller
             Controls.reset(new Joystick(1, 6, 10));//Winch and arm controller
             TestMotor.reset(new Spark(5));
+            CameraServer::GetInstance()->StartAutomaticCapture(0);
+            CameraServer::GetInstance()->StartAutomaticCapture(1);
         }
 
         void armTest()
