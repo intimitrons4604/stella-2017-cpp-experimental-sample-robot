@@ -37,10 +37,11 @@ class MyRobot : public SampleRobot
     public:
         void RobotInit()
         {
+        	std::printf("Starting!");
             /*Robot initialization function*/
-        	MotorRight1.reset(new Talon(0));
+        	MotorRight1.reset(new Talon(2));
         	MotorRight2.reset(new Talon(1));
-        	MotorLeft1.reset(new Talon(2));
+        	MotorLeft1.reset(new Talon(0));
         	MotorLeft2.reset(new Talon(3));
 	        MotorClimber.reset(new Talon(4));
             //stick = new Joystick(driveChannel);
@@ -82,11 +83,14 @@ class MyRobot : public SampleRobot
                 right=1;
             else if (right<-1)
                 right=-1;
-            MotorLeft1->Set(left);
-            MotorLeft2->Set(left);
-            MotorRight1->Set(right);
-            MotorRight2->Set(right);
-            MotorClimber->Set(leftTrigger*0.5);
+
+            leftTrigger=std::pow(leftTrigger,3);
+
+            MotorLeft1->Set(left);  //motor0
+            MotorLeft2->Set(left);  //motor3
+            MotorRight1->Set(right);  //motor2
+            MotorRight2->Set(right);  //motor1
+            MotorClimber->Set(leftTrigger*1.00);
         }
 
         void Autonomous()
@@ -96,12 +100,12 @@ class MyRobot : public SampleRobot
 
             if (IsAutonomous() && IsEnabled())
             {
-#define LEFT
+#define SIDE
 
 #ifdef MIDDLE //goes straight to peg (gear)
             	float left = 0.5;
             	float right = -0.5;
-            	double driveTime = 5;
+            	double driveTime = 2;
 
             	MotorLeft1->Set(left);
             	MotorLeft2 ->Set(left);
@@ -109,21 +113,30 @@ class MyRobot : public SampleRobot
             	MotorRight2->Set(right);
 
             	Wait(driveTime); // wait for a motor update time
-
+            	MotorLeft1->Set(0);
+            	MotorLeft2 ->Set(0);
+            	MotorRight1->Set(0);
+            	MotorRight2->Set(0);
 
 #endif
             	
 #ifdef SIDE  //goes straight to pass line
-            	float left = -0.5;
-            	float right = 0.5;
-            	double driveTimeSide = 5;
+            	float left = 0.5;
+            	float right = -0.5;
+            	double driveTimeSide = 4.50;
 
             	MotorLeft1->Set(left);
             	MotorLeft2->Set(left);
             	MotorRight1->Set(right);
             	MotorRight2->Set(right);
 
-            	Wait(driveTimeSide); // wait for a motor update time
+            	Wait(driveTimeSide); // 5 sec wait
+
+            	MotorLeft1->Set(0);
+            	MotorLeft2 ->Set(0);
+            	MotorRight1->Set(0);
+            	MotorRight2->Set(0);
+
 #endif
 
             	/*
